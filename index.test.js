@@ -1,7 +1,7 @@
 function sumOfStringChars(stringInput) {
   if (stringInput === "") return 0;
 
-  const delimiters = /[,\n;]/;
+  const delimiters = /[,\n;\\\\]/;
   const spiltStringData = stringInput.split(delimiters);
 
   if (spiltStringData.some((item) => parseInt(item) < 0)) {
@@ -66,8 +66,20 @@ describe("add string", () => {
     expect(console.error).toHaveBeenCalledWith("negative numbers not allowed");
   });
 
+  test('should have input string as multiple argument with delimter \\ value return sum"', () => {
+    expect(mockFn).toHaveBeenCalled();
+    expect(sumOfStringChars('1\\5')).toBe(33);
+  });
+
+  it(`should have input string as multiple argument and negative value with delimter \\ throw error`, () => {
+    expect(mockFn).toHaveBeenCalled();
+    console.error = jest.fn();
+    expect(sumOfStringChars("1\\-5")).toBeUndefined();
+    expect(console.error).toHaveBeenCalledWith("negative numbers not allowed");
+  });
+
   test("should handle mixed delimiters and return sum", () => {
     expect(mockFn).toHaveBeenCalled();
-    expect(sumOfStringChars("10,11;12\n13")).toBe(46);
+    expect(sumOfStringChars("10,11;12\n13\\4")).toBe(50);
   });
 });
